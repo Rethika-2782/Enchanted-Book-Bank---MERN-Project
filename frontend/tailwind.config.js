@@ -1,0 +1,1 @@
+/** @type {import('tailwindcss').Config} */ export default {content:['./index.html','./src/**/*.{js,jsx}'],theme:{extend:{fontFamily:{display:['Cinzel','serif'],body:['Inter','sans-serif'],serif:['Cormorant Garamond','serif']},colors:{forest:'#14251B',deep:'#0F1712',leaf:'#1C3526',burgundy:'#4A1824',gold:'#C9A227',parchment:'#F1E5C3',cream:'#FFF8E7'}}},plugins:[]}

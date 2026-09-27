@@ -1,0 +1,9 @@
+import {Router} from 'express';import * as auth from '../controllers/auth.js';import * as books from '../controllers/books.js';import * as requests from '../controllers/requests.js';import * as transactions from '../controllers/transactions.js';import * as users from '../controllers/users.js';import * as notifications from '../controllers/notifications.js';import * as fines from '../controllers/fines.js';import {auth as guard,roles} from '../middleware/auth.js';
+const r=Router();
+r.post('/auth/login',auth.login);r.post('/auth/register',auth.register);r.get('/auth/me',guard,auth.me);
+r.get('/books',books.list);r.get('/books/:id',books.get);r.post('/books',guard,roles('admin','librarian'),books.create);r.put('/books/:id',guard,roles('admin','librarian'),books.update);r.delete('/books/:id',guard,roles('admin','librarian'),books.remove);
+r.get('/requests',guard,requests.list);r.post('/requests',guard,roles('student'),requests.create);r.patch('/requests/:id/decide',guard,roles('admin','librarian'),requests.decide);r.post('/requests/:id/issue',guard,roles('admin','librarian'),requests.issue);r.patch('/requests/:id/cancel',guard,roles('student'),requests.cancel);
+r.get('/transactions',guard,transactions.list);r.post('/transactions/:id/return',guard,roles('admin','librarian'),transactions.returns);r.get('/dashboard',guard,roles('admin','librarian'),transactions.dashboard);
+r.get('/students',guard,roles('admin','librarian'),users.students);r.get('/notifications',guard,notifications.list);r.patch('/notifications/:id/read',guard,notifications.read);
+r.get('/fines',guard,fines.list);r.patch('/fines/:id/pay',guard,roles('admin','librarian','student'),fines.pay);r.patch('/fines/:id/waive',guard,roles('admin','librarian'),fines.waive);
+export default r;
